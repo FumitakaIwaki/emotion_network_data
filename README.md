@@ -1,38 +1,61 @@
 # The network data of emotions in similarity and association
-## 1. 概要
-認知実験を行い，人が感じる感情同士の類似性，関連性のデータを収集し，ネットワークデータに変換した．  
-本実験は日本語を母語とする被験者に対して日本語で行われた．
+[README in Japanese](README_jp.md)
 
-## 2. 実験内容
-類似性と関連性の実験は独立に実施した．  
-実験の参加者はCrowdWorksというクラウドソーシングサイトで募集し，実験は自作Web上で実施した．
+## 1. Overview
+We conducted cognitive experiments to collect similarity and association between emotions that human feel and made the network data based on the results of the experiments.  
 
-### 2.1. 感情データ
-R. Plutchikが提案した48個の感情語を使用した．  
-各感情語は日本語に翻訳した．
+## 2. Experiments
+We have conducted the similarity experiment and the association experiment are independently.  
+We have hired the participants on the crowdsourcing platform named [CrowdWorks](https://crowdworks.jp/) and they have joined the experiments on the web.
 
-### 2.2. 類似性の実験
-実験参加者に対し，ある感情語AとBについて「AにBはどれくらい似ていますか?」という質問を出題し，「0:全く似ていない ~ 7:とても似ている」の8段階からドラッグして選択してもらった．
+### 2.1. The data of emotions
+We used 48 emotion words proposed by R. Plutchik on out experiments.  
+We translated each emotion words to Japanese.
 
-### 2.3. 関連性の実験
-実験参加者に対し，ある感情語AとBについて「AからBはどれくらい連想しますか?」という質問を出題し，「0:全く連想しない ~ 7:とても連想する」の8段階からドラッグして選択してもらった．
+|　48 emotion words for the experiments | |
+| :--- | :--- |
+| primary emotions | joy trust fear surprise <br> sadness disgust anger <br> anticipation |
+| strong derived emotions | ecstasy admiration terror <br> amazement grief loathing <br> rage vigilance |
+| weak derived emotions | serenity acceptance apprehension <br> distraction pensiveness boredom <br> annoyance interest |
+| secondary emotions | optimism hope anxiety love guilt <br> delight submission curiosity <br> sentimentality awe despair shame <br> disappointment unbelief outrage <br> remorse envy pessimism <br> contempt cynicism morbidness <br> aggressiveness pride dominance |
 
-### 2.4. フィルタリング
-不備のあるデータを削除した上で，catch trialsとdouble-passという2種類のフィルタリング処理を施した．
+### 2.2. The experiment of similarity
+We presented participants with the questions “How similar is A to B?” for all two emotions A and B, and they then dragged a slider to choose an evaluation score from 0 (not at all) to 7 (very similar) .  
+We assigned 96 question to each participant.
 
-## 3. ディレクトリ構造
-```bash
+### 2.3. The experiment of association
+We presented questions “How associated is
+A with B?” and participants chose an answer from the
+same evaluation scores.  
+We assigned 96 question to each participant.
+
+### 2.4. Filterings
+After removing defective data, to remove poor quality answers from the obtained data, we applied two kinds of filtering, catch trials and a double-pass procedure.
+- catch trials
+    - We inserted the request “Please choose n” twice during each experiment (n was a value from 0 to 7) . 
+    - We removed the responses of the participants who have not properly chosen the indicated value at least once of the catch trials.
+- double-pass
+    - We again subjected to the participants 20 questions from within the questions that have already been submitted at the end of the experiments. 
+    - We deleted the data of which the correlation coefficient of the 20 pairs of answers was less than 0.4.  
+
+These filterings were cited from the research by kawakita et al. (kawakita et al. 2023) .
+
+## 3. The directory composition
+```shell
 ├── LICENSE
 ├── README.md
 ├── network_data
-│   ├── association_edgelist_eng.csv # 関連性の辺リスト (英語)
-│   ├── association_edgelist_jp.csv # 関連性の辺リスト (日本語)
-│   ├── similarity_edgelist_eng.csv # 類似性の辺リスト (英語)
-│   ├── similarity_edgelist_jp.csv # 類似性の辺リスト (日本語)
-│   ├── words_eng.csv # 感情語のリスト (英語)
-│   └── words_jp.csv # 感情語のリスト (日本語)
+│   ├── association_edgelist_eng.csv
+│   ├── association_edgelist_jp.csv
+│   ├── similarity_edgelist_eng.csv
+│   ├── similarity_edgelist_jp.csv
+│   ├── words_eng.csv
+│   └── words_jp.csv
 ├── notebooks
-│   └── view.ipynb # データを表示した簡易的なnotebook
+│   └── view.ipynb
 ├── poetry.lock
 └── pyproject.toml
 ```
+
+## References
+1. Kawakita, G., Zeleznikow-Johnston, A., Tsuchiya, N., & Oizumi, M. (2023). Is my “red” your “red”?: Unsupervised alignment of qualia structures via optimal transport. PsyArXiv. https://doi.org/10.31234/osf.io/h3pqm
